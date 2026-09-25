@@ -791,26 +791,32 @@
            AUTO MOVE TO NEXT INPUT
            ========================= */
 
-        const inputs = [
-            document.getElementById('currencyPrice'),
-            document.getElementById('addedExpensesPercent'),
-            document.getElementById('exchangeToUsd'),
-            document.getElementById('exchangeUsdToIqd')
-        ];
+       const inputs = [
+    document.getElementById('currencyPrice'),
+    document.getElementById('addedExpensesPercent'),
+    document.getElementById('exchangeToUsd'),
+    document.getElementById('exchangeUsdToIqd')
+];
 
-        inputs.forEach((input, index) => {
+inputs.forEach((input, index) => {
 
-            input.addEventListener('input', function () {
+    input.addEventListener('keydown', function (event) {
 
-                if (this.value !== '' && index < inputs.length - 1) {
+        if (event.key === 'Enter') {
 
-                    inputs[index + 1].focus();
+            event.preventDefault();
 
-                }
+            if (index < inputs.length - 1) {
+                inputs[index + 1].focus();
+            } else {
+                this.blur();
+            }
 
-            });
+        }
 
-        });
+    });
+
+});
 
     </script>
 
