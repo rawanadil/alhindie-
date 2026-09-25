@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="h-full overflow-hidden">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>حاسبة تحويل العملات والمصاريف</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Tajawal -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        tajawal: ['Tajawal', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        html, body {
+            height: 100%;
+            height: 100dvh;
+            overflow: hidden;
+            touch-action: manipulation;
+            font-family: 'Tajawal', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+        }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .glass-input {
+            background: rgba(15, 23, 42, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.2s ease;
+        }
+
+        .glass-input:focus-within {
+            border-color: #38bdf8;
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
+            background: rgba(15, 23, 42, 0.9);
+        }
+
+        /* Hide standard HTML number arrows */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+    </style>
+</head>
+<body class="text-slate-100 flex items-center justify-center p-3 sm:p-5 h-full select-none">
+
+    <!-- Background glowing orbs -->
+    <div class="absolute -top-10 -right-10 w-60 h-60 bg-blue-600/20 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute -bottom-10 -left-10 w-60 h-60 bg-purple-600/20 rounded-full blur-3xl pointer-events-none"></div>
+
+    <main class="w-full max-w-md mx-auto h-full flex flex-col justify-center items-center py-1 z-10">
+        
+        <!-- Main Form Container Fit to Screen -->
+        <div class="glass-card rounded-3xl p-4 sm:p-5 w-full h-full flex flex-col justify-between shadow-2xl">
+            
+            <!-- Section 1: All Inputs (1 to 4 in strict order) -->
+            <div class="space-y-2.5 my-auto">
+                
+                <!-- Input 1: سعر العملة (كبير جداً وبارز) -->
+                <div class="space-y-1">
+                    <label for="currencyPrice" class="block text-xs font-bold text-sky-400 flex items-center justify-between">
+                        <span class="flex items-center gap-1.5">
+                            <i class="fa-solid fa-coins text-sm"></i> الخانة الأولى: سعر العملة
+                        </span>
+                        <span class="text-[10px] text-slate-400 bg-slate-800 px-2 py-0.5 rounded-full">(الأصل)</span>
+                    </label>
+                    <div class="glass-input rounded-2xl flex items-center px-4 py-2 border border-sky-500/40">
+                        <input type="number" id="currencyPrice" placeholder="0.00" step="any"
+                            inputmode="decimal" pattern="[0-9]*"
+                            class="w-full bg-transparent text-2xl sm:text-3xl font-black text-white focus:outline-none tracking-wide text-right dir-ltr placeholder:text-slate-600"
+                            oninput="calculateResult()">
+                        <span class="text-xs font-black text-sky-400 mr-2 bg-sky-950/80 border border-sky-800 px-2.5 py-1 rounded-xl">عملة</span>
+                    </div>
+                </div>
+
+                <!-- Input 2: المصاريف المضافة % -->
+                <div class="space-y-1">
+                    <label for="addedExpensesPercent" class="block text-[11px] font-semibold text-slate-300 flex items-center justify-between">
+                        <span><i class="fa-solid fa-percent text-emerald-400 ml-1.5"></i>الخانة الثانية: المصاريف المضافة</span>
+                        <span class="text-[10px] text-slate-400">(%)</span>
+                    </label>
+                    <div class="glass-input rounded-xl flex items-center px-3 py-1.5 border">
+                        <input type="number" id="addedExpensesPercent" placeholder="0" step="any"
+                            inputmode="decimal" pattern="[0-9]*"
+                            class="w-full bg-transparent text-base font-bold text-white focus:outline-none tracking-wide text-right dir-ltr placeholder:text-slate-600"
+                            oninput="calculateResult()">
+                        <span class="text-[10px] font-bold text-slate-400 mr-2 bg-slate-800 px-2 py-0.5 rounded-lg">%</span>
+                    </div>
+                </div>
+
+                <!-- Input 3: سعر تصريف العملة للدولار -->
+                <div class="space-y-1">
+                    <label for="exchangeToUsd" class="block text-[11px] font-semibold text-slate-300 flex items-center justify-between">
+                        <span><i class="fa-solid fa-dollar-sign text-amber-400 ml-1.5"></i>الخانة الثالثة: تصريف العملة للدولار</span>
+                        <span class="text-[10px] text-slate-400">(تقسيم)</span>
+                    </label>
+                    <div class="glass-input rounded-xl flex items-center px-3 py-1.5 border">
+                        <input type="number" id="exchangeToUsd" placeholder="1.00" step="any"
+                            inputmode="decimal" pattern="[0-9]*"
+                            class="w-full bg-transparent text-base font-bold text-white focus:outline-none tracking-wide text-right dir-ltr placeholder:text-slate-600"
+                            oninput="calculateResult()">
+                        <span class="text-[10px] font-bold text-slate-400 mr-2 bg-slate-800 px-2 py-0.5 rounded-lg">USD</span>
+                    </div>
+                </div>
+
+                <!-- Input 4: سعر تصريف الدولار للدينار -->
+                <div class="space-y-1">
+                    <label for="exchangeUsdToIqd" class="block text-[11px] font-semibold text-slate-300 flex items-center justify-between">
+                        <span><i class="fa-solid fa-money-bill-wave text-purple-400 ml-1.5"></i>الخانة الرابعة: تصريف الدولار للدينار</span>
+                        <span class="text-[10px] text-slate-400">(ضرب)</span>
+                    </label>
+                    <div class="glass-input rounded-xl flex items-center px-3 py-1.5 border">
+                        <input type="number" id="exchangeUsdToIqd" placeholder="1500" step="any"
+                            inputmode="decimal" pattern="[0-9]*"
+                            class="w-full bg-transparent text-base font-bold text-white focus:outline-none tracking-wide text-right dir-ltr placeholder:text-slate-600"
+                            oninput="calculateResult()">
+                        <span class="text-[10px] font-bold text-slate-400 mr-2 bg-slate-800 px-2 py-0.5 rounded-lg">IQD</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Section 2: Results, Reset Button, and Breakdown -->
+            <div class="space-y-2.5 mt-auto pt-2">
+                
+                <!-- Final Result Display Card (Right after inputs) -->
+                <div class="bg-gradient-to-br from-emerald-500/20 via-slate-800/90 to-sky-500/20 rounded-2xl p-3 border border-emerald-500/30 text-center relative overflow-hidden shadow-lg">
+                    <div class="text-[10px] font-extrabold uppercase text-emerald-400 tracking-wider">الناتج النهائي (بالدينار)</div>
+                    <div id="finalResult" class="text-3xl sm:text-4xl font-black text-white tracking-tight my-0.5">
+                        0 <span class="text-base font-bold text-slate-400">د.ع</span>
+                    </div>
+                </div>
+
+                <!-- Reset Button (Immediately under Final Result) -->
+                <button onclick="resetCurrencyOnly()" 
+                    class="w-full bg-gradient-to-r from-red-500/25 via-rose-600/25 to-red-500/25 hover:from-red-500/40 hover:to-rose-600/40 active:scale-[0.98] text-rose-200 font-extrabold py-3 px-4 rounded-xl border border-rose-500/40 transition duration-200 flex items-center justify-center space-x-2 space-x-reverse text-sm shadow-lg">
+                    <i class="fa-solid fa-rotate-right text-base"></i>
+                    <span>تصفير سعر العملة فقط</span>
+                </button>
+
+                <!-- Step-by-Step Mini Breakdown -->
+                <div class="bg-slate-900/60 rounded-xl p-2 border border-slate-800 grid grid-cols-3 gap-1.5 text-center text-[10px]">
+                    <div class="bg-slate-800/50 p-1.5 rounded-lg">
+                        <span class="text-slate-400 block text-[9px]">مع المصاريف</span>
+                        <span id="step1Val" class="font-bold text-slate-200">0</span>
+                    </div>
+                    <div class="bg-slate-800/50 p-1.5 rounded-lg">
+                        <span class="text-slate-400 block text-[9px]">بالدولار ($)</span>
+                        <span id="step2Val" class="font-bold text-slate-200">$0</span>
+                    </div>
+                    <div class="bg-slate-800/50 p-1.5 rounded-lg">
+                        <span class="text-slate-400 block text-[9px]">بالدينار النهائي</span>
+                        <span id="step3Val" class="font-bold text-emerald-400">0 د.ع</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- JavaScript Calculation Logic -->
+    <script>
+        function calculateResult() {
+            const price = parseFloat(document.getElementById('currencyPrice').value) || 0;
+            const percent = parseFloat(document.getElementById('addedExpensesPercent').value) || 0;
+            const toUsd = parseFloat(document.getElementById('exchangeToUsd').value) || 0;
+            const usdToIqd = parseFloat(document.getElementById('exchangeUsdToIqd').value) || 0;
+
+            const finalResultEl = document.getElementById('finalResult');
+            const step1El = document.getElementById('step1Val');
+            const step2El = document.getElementById('step2Val');
+            const step3El = document.getElementById('step3Val');
+
+            if (price <= 0) {
+                finalResultEl.innerHTML = `0 <span class="text-base font-bold text-slate-400">د.ع</span>`;
+                step1El.textContent = '0';
+                step2El.textContent = '$0';
+                step3El.textContent = '0 د.ع';
+                return;
+            }
+
+            // Step 1: الخانة الأولى + (الخانة الأولى * الخانة الثانية %)
+            const addedExpense = price * (percent / 100);
+            const totalCurrencyWithExpense = price + addedExpense;
+
+            // Step 2: الناتج ÷ الخانة الثالثة (سعر تصريف العملة للدولار)
+            let priceInUSD = 0;
+            if (toUsd > 0) {
+                priceInUSD = totalCurrencyWithExpense / toUsd;
+            }
+
+            // Step 3: الناتج × الخانة الرابعة (سعر صرف الدولار للدينار)
+            const finalResultInDinar = priceInUSD * usdToIqd;
+
+            // Formatting output numbers
+            const formattedTotalCurrency = formatNumber(totalCurrencyWithExpense, 2);
+            const formattedUSD = formatNumber(priceInUSD, 2);
+            const formattedFinal = formatNumber(finalResultInDinar, 0);
+
+            // Update Breakdown Steps
+            step1El.textContent = formattedTotalCurrency;
+            step2El.textContent = `$${formattedUSD}`;
+            step3El.textContent = `${formattedFinal} د.ع`;
+
+            // Update Main Display
+            finalResultEl.innerHTML = `${formattedFinal} <span class="text-base font-bold text-emerald-400">د.ع</span>`;
+        }
+
+        function formatNumber(num, decimals = 2) {
+            if (isNaN(num)) return '0';
+            return num.toLocaleString('en-US', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: decimals
+            });
+        }
+
+        // Resets ONLY the main input (Currency Price)
+        function resetCurrencyOnly() {
+            const currencyInput = document.getElementById('currencyPrice');
+            currencyInput.value = '';
+            currencyInput.focus();
+
+            calculateResult();
+
+            const card = document.querySelector('.glass-card');
+            card.classList.add('scale-[0.99]');
+            setTimeout(() => {
+                card.classList.remove('scale-[0.99]');
+            }, 120);
+        }
+    </script>
+</body>
+</html>
