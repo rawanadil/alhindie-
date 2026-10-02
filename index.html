@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -12,6 +11,7 @@
                    viewport-fit=cover">
 
     <title>حاسبة تحويل العملات والمصاريف</title>
+    <link rel="icon" type="image/jpeg" href="alhinde.jpg">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -81,7 +81,6 @@
 
             touch-action: manipulation;
 
-            /* مهم للموبايل */
             min-height: 100svh;
         }
 
@@ -122,13 +121,14 @@
 
 
         /* =========================
-           CARD
+           CARD WITH WATERMARK
         ========================= */
 
         .glass-card {
             width: 100%;
+            position: relative; /* ضروري لتثبيت الخلفية المائية بالداخل */
 
-            background: rgba(30, 41, 59, 0.78);
+            background: rgba(30, 41, 59, 0.82);
 
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
@@ -143,7 +143,6 @@
                 0 25px 60px rgba(0, 0, 0, 0.35),
                 inset 0 1px 0 rgba(255, 255, 255, 0.05);
 
-            /* لا نخلي الكرت يأخذ 100% من ارتفاع الشاشة */
             height: auto;
 
             max-height: calc(100svh - 24px);
@@ -156,6 +155,22 @@
 
             display: flex;
             flex-direction: column;
+            isolation: isolate; /* يضمن بقاء الحقول والنتائج فوق الصورة المائية */
+        }
+
+        /* الطبقة المائية للصورة alhinde.jpg */
+        .glass-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: url("alhinde.jpg");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 70%; /* حجم الشعار في المنتصف */
+            opacity: 0.08; /* درجة الشفافية المائية الهادئة */
+            pointer-events: none; /* تمنع تداخل الصورة مع النقر على الحقول */
+            z-index: -1;
+            filter: grayscale(20%);
         }
 
         .glass-card::-webkit-scrollbar {
@@ -278,27 +293,26 @@
     <div class="page-wrapper">
 
         <main class="main-container">
-		<div class="glass-card">
+
+            <div class="glass-card">
 
                 <!-- =========================
-                     شعار الموقع (alhinde.jpg)
+                     HEADER & LOGO
                 ========================= -->
-<div class="flex items-center justify-between gap-3 pb-3.5 mb-3.5 border-b border-slate-700/60">
-    <div class="flex items-center gap-3">
-        <img src="alhinde.jpg" 
-             alt="alhinde logo" 
-             class="w-14 h-14 object-cover rounded-2xl border-2 border-sky-400/30 shadow-lg shadow-sky-950/40 shrink-0">
-        <div>
-            <h1 class="text-base font-black text-white leading-tight">حاسبة العملات</h1>
-            <p class="text-[11px] text-slate-400 mt-0.5">تحويل ومصاريف فورية</p>
-        </div>
-    </div>
-    <span class="text-[11px] font-bold text-sky-400 bg-sky-950/80 border border-sky-800/80 px-2.5 py-1 rounded-xl">
-        v1.0
-    </span>
-</div>
-            
-
+                <div class="flex items-center justify-between gap-3 pb-3 mb-3 border-b border-slate-700/50">
+                    <div class="flex items-center gap-3">
+                        <img src="alhinde.jpg" 
+                             alt="alhinde logo" 
+                             class="w-12 h-12 object-cover rounded-2xl border border-sky-400/30 shadow-md shadow-sky-950/40 shrink-0">
+                        <div>
+                            <h1 class="text-sm font-extrabold text-white leading-tight">حاسبة العملات</h1>
+                            <p class="text-[10px] text-slate-400 mt-0.5">تحويل ومصاريف فورية</p>
+                        </div>
+                    </div>
+                    <span class="text-[10px] font-bold text-sky-400 bg-sky-950/70 border border-sky-800/70 px-2.5 py-1 rounded-xl">
+                        v1.0
+                    </span>
+                </div>
 
                 <!-- =========================
                      INPUTS
@@ -306,36 +320,21 @@
 
                 <div class="space-y-3">
 
-
                     <!-- Input 1 -->
-
                     <div class="space-y-1">
-
                         <label
                             for="currencyPrice"
                             class="block text-xs font-bold text-sky-400 flex items-center justify-between">
-
                             <span class="flex items-center gap-1.5">
-
                                 <i class="fa-solid fa-coins text-sm"></i>
-
                                 الخانة الأولى: سعر العملة
-
                             </span>
-
-                            <span
-                                class="text-[10px] text-slate-400 bg-slate-800 px-2 py-0.5 rounded-full">
-
+                            <span class="text-[10px] text-slate-400 bg-slate-800 px-2 py-0.5 rounded-full">
                                 (الأصل)
-
                             </span>
-
                         </label>
 
-
-                        <div
-                            class="glass-input rounded-2xl flex items-center px-4 py-2 border border-sky-500/40">
-
+                        <div class="glass-input rounded-2xl flex items-center px-4 py-2 border border-sky-500/40">
                             <input
                                 type="number"
                                 id="currencyPrice"
@@ -343,51 +342,29 @@
                                 step="any"
                                 inputmode="decimal"
                                 pattern="[0-9]*"
-
                                 class="w-full bg-transparent text-2xl sm:text-3xl font-black text-white focus:outline-none tracking-wide text-right dir-ltr placeholder:text-slate-600"
-
                                 oninput="calculateResult()">
-
-                            <span
-                                class="text-xs font-black text-sky-400 mr-2 bg-sky-950/80 border border-sky-800 px-2.5 py-1 rounded-xl">
-
+                            <span class="text-xs font-black text-sky-400 mr-2 bg-sky-950/80 border border-sky-800 px-2.5 py-1 rounded-xl">
                                 عملة
-
                             </span>
-
                         </div>
-
                     </div>
 
-
                     <!-- Input 2 -->
-
                     <div class="space-y-1">
-
                         <label
                             for="addedExpensesPercent"
                             class="block text-[11px] font-semibold text-slate-300 flex items-center justify-between">
-
                             <span>
-
                                 <i class="fa-solid fa-percent text-emerald-400 ml-1.5"></i>
-
                                 الخانة الثانية: المصاريف المضافة
-
                             </span>
-
                             <span class="text-[10px] text-slate-400">
-
                                 (%)
-
                             </span>
-
                         </label>
 
-
-                        <div
-                            class="glass-input rounded-xl flex items-center px-3 py-1.5 border">
-
+                        <div class="glass-input rounded-xl flex items-center px-3 py-1.5 border">
                             <input
                                 type="number"
                                 id="addedExpensesPercent"
@@ -395,51 +372,29 @@
                                 step="any"
                                 inputmode="decimal"
                                 pattern="[0-9]*"
-
                                 class="w-full bg-transparent text-base font-bold text-white focus:outline-none tracking-wide text-right dir-ltr placeholder:text-slate-600"
-
                                 oninput="calculateResult()">
-
-                            <span
-                                class="text-[10px] font-bold text-slate-400 mr-2 bg-slate-800 px-2 py-0.5 rounded-lg">
-
+                            <span class="text-[10px] font-bold text-slate-400 mr-2 bg-slate-800 px-2 py-0.5 rounded-lg">
                                 %
-
                             </span>
-
                         </div>
-
                     </div>
 
-
                     <!-- Input 3 -->
-
                     <div class="space-y-1">
-
                         <label
                             for="exchangeToUsd"
                             class="block text-[11px] font-semibold text-slate-300 flex items-center justify-between">
-
                             <span>
-
                                 <i class="fa-solid fa-dollar-sign text-amber-400 ml-1.5"></i>
-
                                 الخانة الثالثة: تصريف العملة للدولار
-
                             </span>
-
                             <span class="text-[10px] text-slate-400">
-
                                 (تقسيم)
-
                             </span>
-
                         </label>
 
-
-                        <div
-                            class="glass-input rounded-xl flex items-center px-3 py-1.5 border">
-
+                        <div class="glass-input rounded-xl flex items-center px-3 py-1.5 border">
                             <input
                                 type="number"
                                 id="exchangeToUsd"
@@ -447,51 +402,29 @@
                                 step="any"
                                 inputmode="decimal"
                                 pattern="[0-9]*"
-
                                 class="w-full bg-transparent text-base font-bold text-white focus:outline-none tracking-wide text-right dir-ltr placeholder:text-slate-600"
-
                                 oninput="calculateResult()">
-
-                            <span
-                                class="text-[10px] font-bold text-slate-400 mr-2 bg-slate-800 px-2 py-0.5 rounded-lg">
-
+                            <span class="text-[10px] font-bold text-slate-400 mr-2 bg-slate-800 px-2 py-0.5 rounded-lg">
                                 USD
-
                             </span>
-
                         </div>
-
                     </div>
 
-
                     <!-- Input 4 -->
-
                     <div class="space-y-1">
-
                         <label
                             for="exchangeUsdToIqd"
                             class="block text-[11px] font-semibold text-slate-300 flex items-center justify-between">
-
                             <span>
-
                                 <i class="fa-solid fa-money-bill-wave text-purple-400 ml-1.5"></i>
-
                                 الخانة الرابعة: تصريف الدولار للدينار
-
                             </span>
-
                             <span class="text-[10px] text-slate-400">
-
                                 (ضرب)
-
                             </span>
-
                         </label>
 
-
-                        <div
-                            class="glass-input rounded-xl flex items-center px-3 py-1.5 border">
-
+                        <div class="glass-input rounded-xl flex items-center px-3 py-1.5 border">
                             <input
                                 type="number"
                                 id="exchangeUsdToIqd"
@@ -499,24 +432,15 @@
                                 step="any"
                                 inputmode="decimal"
                                 pattern="[0-9]*"
-
                                 class="w-full bg-transparent text-base font-bold text-white focus:outline-none tracking-wide text-right dir-ltr placeholder:text-slate-600"
-
                                 oninput="calculateResult()">
-
-                            <span
-                                class="text-[10px] font-bold text-slate-400 mr-2 bg-slate-800 px-2 py-0.5 rounded-lg">
-
+                            <span class="text-[10px] font-bold text-slate-400 mr-2 bg-slate-800 px-2 py-0.5 rounded-lg">
                                 IQD
-
                             </span>
-
                         </div>
-
                     </div>
 
                 </div>
-
 
                 <!-- =========================
                      RESULTS
@@ -524,112 +448,59 @@
 
                 <div class="space-y-3 mt-4">
 
-
                     <!-- Final Result -->
-
-                    <div
-                        class="bg-gradient-to-br from-emerald-500/20 via-slate-800/90 to-sky-500/20 rounded-2xl p-3 border border-emerald-500/30 text-center relative overflow-hidden shadow-lg">
-
-                        <div
-                            class="text-[10px] font-extrabold uppercase text-emerald-400 tracking-wider">
-
+                    <div class="bg-gradient-to-br from-emerald-500/20 via-slate-800/90 to-sky-500/20 rounded-2xl p-3 border border-emerald-500/30 text-center relative overflow-hidden shadow-lg">
+                        <div class="text-[10px] font-extrabold uppercase text-emerald-400 tracking-wider">
                             الناتج النهائي (بالدينار)
-
                         </div>
 
-
-                        <div
-                            id="finalResult"
-                            class="text-3xl sm:text-4xl font-black text-white tracking-tight my-0.5">
-
+                        <div id="finalResult"
+                             class="text-3xl sm:text-4xl font-black text-white tracking-tight my-0.5">
                             0
-
-                            <span
-                                class="text-base font-bold text-slate-400">
-
+                            <span class="text-base font-bold text-slate-400">
                                 د.ع
-
                             </span>
-
                         </div>
-
                     </div>
 
-
                     <!-- Reset -->
-
                     <button
                         onclick="resetCurrencyOnly()"
-
                         class="w-full bg-gradient-to-r from-red-500/25 via-rose-600/25 to-red-500/25 hover:from-red-500/40 hover:to-rose-600/40 active:scale-[0.98] text-rose-200 font-extrabold py-3 px-4 rounded-xl border border-rose-500/40 transition duration-200 flex items-center justify-center gap-2 text-sm shadow-lg">
-
                         <i class="fa-solid fa-rotate-right text-base"></i>
-
                         <span>
                             تصفير سعر العملة فقط
                         </span>
-
                     </button>
 
-
                     <!-- Breakdown -->
-
-                    <div
-                        class="bg-slate-900/60 rounded-xl p-2 border border-slate-800 grid grid-cols-3 gap-1.5 text-center text-[10px]">
-
-                        <div
-                            class="bg-slate-800/50 p-1.5 rounded-lg">
-
+                    <div class="bg-slate-900/60 rounded-xl p-2 border border-slate-800 grid grid-cols-3 gap-1.5 text-center text-[10px]">
+                        <div class="bg-slate-800/50 p-1.5 rounded-lg">
                             <span class="text-slate-400 block text-[9px]">
                                 مع المصاريف
                             </span>
-
-                            <span
-                                id="step1Val"
-                                class="font-bold text-slate-200">
-
+                            <span id="step1Val" class="font-bold text-slate-200">
                                 0
-
                             </span>
-
                         </div>
 
-
-                        <div
-                            class="bg-slate-800/50 p-1.5 rounded-lg">
-
+                        <div class="bg-slate-800/50 p-1.5 rounded-lg">
                             <span class="text-slate-400 block text-[9px]">
                                 بالدولار ($)
                             </span>
-
-                            <span
-                                id="step2Val"
-                                class="font-bold text-slate-200">
-
+                            <span id="step2Val" class="font-bold text-slate-200">
                                 $0
-
                             </span>
-
                         </div>
 
-
-                        <div
-                            class="bg-slate-800/50 p-1.5 rounded-lg">
-
+                        <div class="bg-slate-800/50 p-1.5 rounded-lg">
                             <span class="text-slate-400 block text-[9px]">
                                 بالدينار النهائي
                             </span>
-
-                            <span
-                                id="step3Val"
-                                class="font-bold text-emerald-400">
-
+                            <span id="step3Val" class="font-bold text-emerald-400">
                                 0 د.ع
-
                             </span>
-
                         </div>
-
                     </div>
 
                 </div>
@@ -639,7 +510,6 @@
         </main>
 
     </div>
-
 
     <!-- =========================
          JAVASCRIPT
@@ -684,7 +554,6 @@
 
 
             if (price <= 0) {
-
                 finalResultEl.innerHTML =
                     `0 <span class="text-base font-bold text-slate-400">د.ع</span>`;
 
@@ -696,8 +565,7 @@
             }
 
 
-            // Step 1
-
+            // Step 1: إضافة نسبة المصاريف
             const addedExpense =
                 price * (percent / 100);
 
@@ -705,26 +573,21 @@
                 price + addedExpense;
 
 
-            // Step 2
-
+            // Step 2: التحويل للدولار
             let priceInUSD = 0;
 
             if (toUsd > 0) {
-
                 priceInUSD =
                     totalCurrencyWithExpense / toUsd;
-
             }
 
 
-            // Step 3
-
+            // Step 3: التحويل للدينار العراقي
             const finalResultInDinar =
                 priceInUSD * usdToIqd;
 
 
             // Formatting
-
             const formattedTotalCurrency =
                 formatNumber(totalCurrencyWithExpense, 2);
 
@@ -736,7 +599,6 @@
 
 
             // Breakdown
-
             step1El.textContent =
                 formattedTotalCurrency;
 
@@ -748,7 +610,6 @@
 
 
             // Final result
-
             finalResultEl.innerHTML =
                 `${formattedFinal}
                  <span class="text-base font-bold text-emerald-400">
@@ -758,22 +619,17 @@
 
 
         function formatNumber(num, decimals = 2) {
-
             if (isNaN(num))
                 return '0';
 
             return num.toLocaleString('en-US', {
-
                 minimumFractionDigits: 0,
-
                 maximumFractionDigits: decimals
-
             });
         }
 
 
         function resetCurrencyOnly() {
-
             const currencyInput =
                 document.getElementById('currencyPrice');
 
@@ -781,16 +637,11 @@
 
             calculateResult();
 
-            /* نخلي التركيز بدون ما نخلي الصفحة تقفز */
-
             requestAnimationFrame(() => {
-
                 currencyInput.focus({
                     preventScroll: true
                 });
-
             });
-
 
             const card =
                 document.querySelector('.glass-card');
@@ -798,58 +649,49 @@
             card.classList.add('scale-[0.99]');
 
             setTimeout(() => {
-
                 card.classList.remove('scale-[0.99]');
-
             }, 120);
         }
 
 
-  /* =========================
-   AUTO MOVE TO NEXT INPUT
-   ========================= */
+        /* =========================
+           AUTO MOVE TO NEXT INPUT
+        ========================= */
 
-const inputs = [
-    document.getElementById('currencyPrice'),
-    document.getElementById('addedExpensesPercent'),
-    document.getElementById('exchangeToUsd'),
-    document.getElementById('exchangeUsdToIqd')
-];
+        const inputs = [
+            document.getElementById('currencyPrice'),
+            document.getElementById('addedExpensesPercent'),
+            document.getElementById('exchangeToUsd'),
+            document.getElementById('exchangeUsdToIqd')
+        ];
 
-inputs.forEach((input, index) => {
+        inputs.forEach((input, index) => {
 
-    input.setAttribute(
-        'enterkeyhint',
-        index < inputs.length - 1 ? 'next' : 'done'
-    );
+            input.setAttribute(
+                'enterkeyhint',
+                index < inputs.length - 1 ? 'next' : 'done'
+            );
 
-    input.addEventListener('keydown', function (event) {
+            input.addEventListener('keydown', function (event) {
 
-        if (
-            event.key === 'Enter' ||
-            event.keyCode === 13
-        ) {
+                if (
+                    event.key === 'Enter' ||
+                    event.keyCode === 13
+                ) {
+                    event.preventDefault();
 
-            event.preventDefault();
+                    if (index < inputs.length - 1) {
+                        inputs[index + 1].focus();
+                    } else {
+                        this.blur();
+                    }
+                }
 
-            if (index < inputs.length - 1) {
+            });
 
-                inputs[index + 1].focus();
-
-            } else {
-
-                this.blur();
-
-            }
-
-        }
-
-    });
-
-});
+        });
 
     </script>
 
 </body>
 </html>
-```
