@@ -10,7 +10,7 @@
                    user-scalable=no,
                    viewport-fit=cover">
 
-    <title>حاسبة تحويل العملات والمصاريف</title>
+    <title>Al-Hindi Home</title>
     <link rel="icon" type="image/jpeg" href="alhinde.jpg">
 
     <!-- Tailwind CSS -->
@@ -126,7 +126,7 @@
 
         .glass-card {
             width: 100%;
-            position: relative; /* ضروري لتثبيت الخلفية المائية بالداخل */
+            position: relative;
 
             background: rgba(30, 41, 59, 0.82);
 
@@ -155,10 +155,9 @@
 
             display: flex;
             flex-direction: column;
-            isolation: isolate; /* يضمن بقاء الحقول والنتائج فوق الصورة المائية */
+            isolation: isolate;
         }
 
-        /* الطبقة المائية للصورة alhinde.jpg */
         .glass-card::before {
             content: "";
             position: absolute;
@@ -166,9 +165,9 @@
             background-image: url("alhinde.jpg");
             background-position: center;
             background-repeat: no-repeat;
-            background-size: 70%; /* حجم الشعار في المنتصف */
-            opacity: 0.08; /* درجة الشفافية المائية الهادئة */
-            pointer-events: none; /* تمنع تداخل الصورة مع النقر على الحقول */
+            background-size: 70%;
+            opacity: 0.08;
+            pointer-events: none;
             z-index: -1;
             filter: grayscale(20%);
         }
@@ -209,16 +208,6 @@
 
         input {
             -webkit-tap-highlight-color: transparent;
-        }
-
-        input[type="number"]::-webkit-inner-spin-button,
-        input[type="number"]::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-
-        input[type="number"] {
-            -moz-appearance: textfield;
         }
 
 
@@ -305,7 +294,7 @@
                              alt="alhinde logo" 
                              class="w-12 h-12 object-cover rounded-2xl border border-sky-400/30 shadow-md shadow-sky-950/40 shrink-0">
                         <div>
-                            <h1 class="text-sm font-extrabold text-white leading-tight">حاسبة العملات</h1>
+                            <h1 class="text-sm font-extrabold text-white leading-tight">Al-Hindi Home</h1>
                             <p class="text-[10px] text-slate-400 mt-0.5">تحويل ومصاريف فورية</p>
                         </div>
                     </div>
@@ -320,14 +309,14 @@
 
                 <div class="space-y-3">
 
-                    <!-- Input 1 -->
+                    <!-- الخانة الأولى: سعر القطعة -->
                     <div class="space-y-1">
                         <label
                             for="currencyPrice"
                             class="block text-xs font-bold text-sky-400 flex items-center justify-between">
                             <span class="flex items-center gap-1.5">
                                 <i class="fa-solid fa-coins text-sm"></i>
-                                الخانة الأولى: سعر العملة
+                                الخانة الأولى: سعر القطعة
                             </span>
                             <span class="text-[10px] text-slate-400 bg-slate-800 px-2 py-0.5 rounded-full">
                                 (الأصل)
@@ -336,21 +325,23 @@
 
                         <div class="glass-input rounded-2xl flex items-center px-4 py-2 border border-sky-500/40">
                             <input
-                                type="number"
+                                type="text"
                                 id="currencyPrice"
                                 placeholder="0.00"
-                                step="any"
                                 inputmode="decimal"
-                                pattern="[0-9]*"
+                                autocomplete="off"
+                                autocorrect="off"
+                                autocapitalize="off"
+                                spellcheck="false"
                                 class="w-full bg-transparent text-2xl sm:text-3xl font-black text-white focus:outline-none tracking-wide text-right dir-ltr placeholder:text-slate-600"
-                                oninput="calculateResult()">
+                                oninput="handleFormattedInput(this)">
                             <span class="text-xs font-black text-sky-400 mr-2 bg-sky-950/80 border border-sky-800 px-2.5 py-1 rounded-xl">
                                 عملة
                             </span>
                         </div>
                     </div>
 
-                    <!-- Input 2 -->
+                    <!-- الخانة الثانية: المصاريف المضافة -->
                     <div class="space-y-1">
                         <label
                             for="addedExpensesPercent"
@@ -366,28 +357,62 @@
 
                         <div class="glass-input rounded-xl flex items-center px-3 py-1.5 border">
                             <input
-                                type="number"
+                                type="text"
                                 id="addedExpensesPercent"
                                 placeholder="0"
-                                step="any"
                                 inputmode="decimal"
-                                pattern="[0-9]*"
+                                autocomplete="off"
+                                autocorrect="off"
+                                autocapitalize="off"
+                                spellcheck="false"
                                 class="w-full bg-transparent text-base font-bold text-white focus:outline-none tracking-wide text-right dir-ltr placeholder:text-slate-600"
-                                oninput="calculateResult()">
+                                oninput="handleFormattedInput(this)">
                             <span class="text-[10px] font-bold text-slate-400 mr-2 bg-slate-800 px-2 py-0.5 rounded-lg">
                                 %
                             </span>
                         </div>
                     </div>
 
-                    <!-- Input 3 -->
+                    <!-- الخانة الثالثة: نسبة الربح -->
+                    <div class="space-y-1">
+                        <label
+                            for="profitMarginPercent"
+                            class="block text-[11px] font-semibold text-slate-300 flex items-center justify-between">
+                            <span>
+                                <i class="fa-solid fa-chart-line text-teal-400 ml-1.5"></i>
+                                الخانة الثالثة: نسبة الربح
+                            </span>
+                            <span class="text-[10px] text-slate-400">
+                                (%)
+                            </span>
+                        </label>
+
+                        <div class="glass-input rounded-xl flex items-center px-3 py-1.5 border">
+                            <input
+                                type="text"
+                                id="profitMarginPercent"
+                                placeholder="0"
+                                inputmode="decimal"
+                                autocomplete="off"
+                                autocorrect="off"
+                                autocapitalize="off"
+                                spellcheck="false"
+                                class="w-full bg-transparent text-base font-bold text-white focus:outline-none tracking-wide text-right dir-ltr placeholder:text-slate-600"
+                                oninput="handleFormattedInput(this)">
+                            <span class="text-[10px] font-bold text-teal-400 mr-2 bg-slate-800 px-2 py-0.5 rounded-lg">
+                                %
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- الخانة الرابعة: تصريف العملة للدولار -->
                     <div class="space-y-1">
                         <label
                             for="exchangeToUsd"
                             class="block text-[11px] font-semibold text-slate-300 flex items-center justify-between">
                             <span>
                                 <i class="fa-solid fa-dollar-sign text-amber-400 ml-1.5"></i>
-                                الخانة الثالثة: تصريف العملة للدولار
+                                الخانة الرابعة: تصريف العملة للدولار
                             </span>
                             <span class="text-[10px] text-slate-400">
                                 (تقسيم)
@@ -396,28 +421,30 @@
 
                         <div class="glass-input rounded-xl flex items-center px-3 py-1.5 border">
                             <input
-                                type="number"
+                                type="text"
                                 id="exchangeToUsd"
                                 placeholder="1.00"
-                                step="any"
                                 inputmode="decimal"
-                                pattern="[0-9]*"
+                                autocomplete="off"
+                                autocorrect="off"
+                                autocapitalize="off"
+                                spellcheck="false"
                                 class="w-full bg-transparent text-base font-bold text-white focus:outline-none tracking-wide text-right dir-ltr placeholder:text-slate-600"
-                                oninput="calculateResult()">
+                                oninput="handleFormattedInput(this)">
                             <span class="text-[10px] font-bold text-slate-400 mr-2 bg-slate-800 px-2 py-0.5 rounded-lg">
                                 USD
                             </span>
                         </div>
                     </div>
 
-                    <!-- Input 4 -->
+                    <!-- الخانة الخامسة: تصريف الدولار للدينار -->
                     <div class="space-y-1">
                         <label
                             for="exchangeUsdToIqd"
                             class="block text-[11px] font-semibold text-slate-300 flex items-center justify-between">
                             <span>
                                 <i class="fa-solid fa-money-bill-wave text-purple-400 ml-1.5"></i>
-                                الخانة الرابعة: تصريف الدولار للدينار
+                                الخانة الخامسة: تصريف الدولار للدينار
                             </span>
                             <span class="text-[10px] text-slate-400">
                                 (ضرب)
@@ -426,14 +453,16 @@
 
                         <div class="glass-input rounded-xl flex items-center px-3 py-1.5 border">
                             <input
-                                type="number"
+                                type="text"
                                 id="exchangeUsdToIqd"
-                                placeholder="1500"
-                                step="any"
+                                placeholder="1,500"
                                 inputmode="decimal"
-                                pattern="[0-9]*"
+                                autocomplete="off"
+                                autocorrect="off"
+                                autocapitalize="off"
+                                spellcheck="false"
                                 class="w-full bg-transparent text-base font-bold text-white focus:outline-none tracking-wide text-right dir-ltr placeholder:text-slate-600"
-                                oninput="calculateResult()">
+                                oninput="handleFormattedInput(this)">
                             <span class="text-[10px] font-bold text-slate-400 mr-2 bg-slate-800 px-2 py-0.5 rounded-lg">
                                 IQD
                             </span>
@@ -456,7 +485,7 @@
 
                         <div id="finalResult"
                              class="text-3xl sm:text-4xl font-black text-white tracking-tight my-0.5">
-                            0
+                            0.00
                             <span class="text-base font-bold text-slate-400">
                                 د.ع
                             </span>
@@ -469,7 +498,7 @@
                         class="w-full bg-gradient-to-r from-red-500/25 via-rose-600/25 to-red-500/25 hover:from-red-500/40 hover:to-rose-600/40 active:scale-[0.98] text-rose-200 font-extrabold py-3 px-4 rounded-xl border border-rose-500/40 transition duration-200 flex items-center justify-center gap-2 text-sm shadow-lg">
                         <i class="fa-solid fa-rotate-right text-base"></i>
                         <span>
-                            تصفير سعر العملة فقط
+                            تصفير سعر القطعة فقط
                         </span>
                     </button>
 
@@ -480,7 +509,7 @@
                                 مع المصاريف
                             </span>
                             <span id="step1Val" class="font-bold text-slate-200">
-                                0
+                                0.00
                             </span>
                         </div>
 
@@ -489,7 +518,7 @@
                                 بالدولار ($)
                             </span>
                             <span id="step2Val" class="font-bold text-slate-200">
-                                $0
+                                $0.00
                             </span>
                         </div>
 
@@ -498,7 +527,7 @@
                                 بالدينار النهائي
                             </span>
                             <span id="step3Val" class="font-bold text-emerald-400">
-                                0 د.ع
+                                0.00 د.ع
                             </span>
                         </div>
                     </div>
@@ -517,97 +546,97 @@
 
     <script>
 
+        function parseRawValue(id) {
+            const el = document.getElementById(id);
+            if (!el) return 0;
+            const val = el.value.replace(/,/g, '').trim();
+            return parseFloat(val) || 0;
+        }
+
+        function handleFormattedInput(input) {
+            let cursor = input.selectionStart;
+            let originalValue = input.value;
+
+            // السماح فقط بالأرقام والنقطة العشرية
+            let clean = originalValue.replace(/[^\d.]/g, '');
+
+            // منع كتابة أكثر من نقطة عشرية واحدة
+            const parts = clean.split('.');
+            if (parts.length > 2) {
+                clean = parts[0] + '.' + parts.slice(1).join('');
+            }
+
+            if (clean === '') {
+                input.value = '';
+                calculateResult();
+                return;
+            }
+
+            const currentParts = clean.split('.');
+            const integerPart = currentParts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            let formattedValue = integerPart;
+
+            if (currentParts.length > 1) {
+                formattedValue += '.' + currentParts[1];
+            }
+
+            const diff = formattedValue.length - originalValue.length;
+            input.value = formattedValue;
+            input.setSelectionRange(cursor + diff, cursor + diff);
+
+            calculateResult();
+        }
+
         function calculateResult() {
 
-            const price =
-                parseFloat(
-                    document.getElementById('currencyPrice').value
-                ) || 0;
+            const price = parseRawValue('currencyPrice');
+            const percent = parseRawValue('addedExpensesPercent');
+            const profitPercent = parseRawValue('profitMarginPercent');
+            const toUsd = parseRawValue('exchangeToUsd');
+            const usdToIqd = parseRawValue('exchangeUsdToIqd');
 
-            const percent =
-                parseFloat(
-                    document.getElementById('addedExpensesPercent').value
-                ) || 0;
-
-            const toUsd =
-                parseFloat(
-                    document.getElementById('exchangeToUsd').value
-                ) || 0;
-
-            const usdToIqd =
-                parseFloat(
-                    document.getElementById('exchangeUsdToIqd').value
-                ) || 0;
-
-
-            const finalResultEl =
-                document.getElementById('finalResult');
-
-            const step1El =
-                document.getElementById('step1Val');
-
-            const step2El =
-                document.getElementById('step2Val');
-
-            const step3El =
-                document.getElementById('step3Val');
-
+            const finalResultEl = document.getElementById('finalResult');
+            const step1El = document.getElementById('step1Val');
+            const step2El = document.getElementById('step2Val');
+            const step3El = document.getElementById('step3Val');
 
             if (price <= 0) {
                 finalResultEl.innerHTML =
-                    `0 <span class="text-base font-bold text-slate-400">د.ع</span>`;
+                    `0.00 <span class="text-base font-bold text-slate-400">د.ع</span>`;
 
-                step1El.textContent = '0';
-                step2El.textContent = '$0';
-                step3El.textContent = '0 د.ع';
+                step1El.textContent = '0.00';
+                step2El.textContent = '$0.00';
+                step3El.textContent = '0.00 د.ع';
 
                 return;
             }
 
-
             // Step 1: إضافة نسبة المصاريف
-            const addedExpense =
-                price * (percent / 100);
-
-            const totalCurrencyWithExpense =
-                price + addedExpense;
-
+            const addedExpense = price * (percent / 100);
+            const totalCurrencyWithExpense = price + addedExpense;
 
             // Step 2: التحويل للدولار
             let priceInUSD = 0;
-
             if (toUsd > 0) {
-                priceInUSD =
-                    totalCurrencyWithExpense / toUsd;
+                priceInUSD = totalCurrencyWithExpense / toUsd;
             }
 
+            // Step 3: التحويل للدينار العراقي الأساسي
+            const baseDinar = priceInUSD * usdToIqd;
 
-            // Step 3: التحويل للدينار العراقي
-            const finalResultInDinar =
-                priceInUSD * usdToIqd;
-
+            // Step 4: إضافة نسبة الربح إلى الناتج النهائي بالدينار
+            const profitAmount = baseDinar * (profitPercent / 100);
+            const finalResultInDinar = baseDinar + profitAmount;
 
             // Formatting
-            const formattedTotalCurrency =
-                formatNumber(totalCurrencyWithExpense, 2);
-
-            const formattedUSD =
-                formatNumber(priceInUSD, 2);
-
-            const formattedFinal =
-                formatNumber(finalResultInDinar, 0);
-
+            const formattedTotalCurrency = formatNumber(totalCurrencyWithExpense, 2);
+            const formattedUSD = formatNumber(priceInUSD, 2);
+            const formattedFinal = formatNumber(finalResultInDinar, 2);
 
             // Breakdown
-            step1El.textContent =
-                formattedTotalCurrency;
-
-            step2El.textContent =
-                `$${formattedUSD}`;
-
-            step3El.textContent =
-                `${formattedFinal} د.ع`;
-
+            step1El.textContent = formattedTotalCurrency;
+            step2El.textContent = `$${formattedUSD}`;
+            step3El.textContent = `${formattedFinal} د.ع`;
 
             // Final result
             finalResultEl.innerHTML =
@@ -617,24 +646,19 @@
                  </span>`;
         }
 
-
         function formatNumber(num, decimals = 2) {
             if (isNaN(num))
-                return '0';
+                return (0).toFixed(decimals);
 
             return num.toLocaleString('en-US', {
-                minimumFractionDigits: 0,
+                minimumFractionDigits: decimals,
                 maximumFractionDigits: decimals
             });
         }
 
-
         function resetCurrencyOnly() {
-            const currencyInput =
-                document.getElementById('currencyPrice');
-
+            const currencyInput = document.getElementById('currencyPrice');
             currencyInput.value = '';
-
             calculateResult();
 
             requestAnimationFrame(() => {
@@ -643,16 +667,13 @@
                 });
             });
 
-            const card =
-                document.querySelector('.glass-card');
-
+            const card = document.querySelector('.glass-card');
             card.classList.add('scale-[0.99]');
 
             setTimeout(() => {
                 card.classList.remove('scale-[0.99]');
             }, 120);
         }
-
 
         /* =========================
            AUTO MOVE TO NEXT INPUT
@@ -661,6 +682,7 @@
         const inputs = [
             document.getElementById('currencyPrice'),
             document.getElementById('addedExpensesPercent'),
+            document.getElementById('profitMarginPercent'),
             document.getElementById('exchangeToUsd'),
             document.getElementById('exchangeUsdToIqd')
         ];
