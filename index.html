@@ -30,6 +30,10 @@
                 extend: {
                     fontFamily: {
                         tajawal: ['Tajawal', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: '#FDA80D',   /* برتقالي اللوكو */
+                        coral: '#EE7351',   /* خط اللوكو */
                     }
                 }
             }
@@ -62,20 +66,15 @@
             background:
                 radial-gradient(
                     circle at top right,
-                    rgba(37, 99, 235, 0.18),
+                    rgba(253, 168, 13, 0.14),
                     transparent 35%
                 ),
                 radial-gradient(
                     circle at bottom left,
-                    rgba(124, 58, 237, 0.18),
+                    rgba(238, 115, 81, 0.12),
                     transparent 35%
                 ),
-                linear-gradient(
-                    135deg,
-                    #0f172a 0%,
-                    #1e1b4b 50%,
-                    #0f172a 100%
-                );
+                #000000;
 
             overflow: hidden;
 
@@ -128,12 +127,12 @@
             width: 100%;
             position: relative;
 
-            background: rgba(30, 41, 59, 0.82);
+            background: rgba(14, 14, 14, 0.9);
 
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
 
-            border: 1px solid rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(253, 168, 13, 0.25);
 
             border-radius: 28px;
 
@@ -182,9 +181,9 @@
         ========================= */
 
         .glass-input {
-            background: rgba(15, 23, 42, 0.65);
+            background: rgba(0, 0, 0, 0.6);
 
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.12);
 
             transition:
                 border-color 0.2s ease,
@@ -193,12 +192,12 @@
         }
 
         .glass-input:focus-within {
-            border-color: #38bdf8;
+            border-color: #FDA80D;
 
             box-shadow:
-                0 0 12px rgba(56, 189, 248, 0.3);
+                0 0 12px rgba(253, 168, 13, 0.3);
 
-            background: rgba(15, 23, 42, 0.9);
+            background: rgba(0, 0, 0, 0.9);
         }
 
 
@@ -277,7 +276,7 @@
 </head>
 
 
-<body class="text-slate-100 select-none">
+<body class="text-neutral-100 select-none">
 
     <div class="page-wrapper">
 
@@ -288,17 +287,17 @@
                 <!-- =========================
                      HEADER & LOGO
                 ========================= -->
-                <div class="flex items-center justify-between gap-3 pb-3 mb-3 border-b border-slate-700/50">
+                <div class="flex items-center justify-between gap-3 pb-3 mb-3 border-b border-neutral-700/50">
                     <div class="flex items-center gap-3">
                         <img src="alhinde.jpg" 
                              alt="alhinde logo" 
-                             class="w-12 h-12 object-cover rounded-2xl border border-sky-400/30 shadow-md shadow-sky-950/40 shrink-0">
+                             class="w-12 h-12 object-cover rounded-2xl border border-brand/40 shadow-md shadow-brand/10 shrink-0">
                         <div>
                             <h1 class="text-sm font-extrabold text-white leading-tight">Al-Hindi Home</h1>
-                            <p class="text-[10px] text-slate-400 mt-0.5">تحويل ومصاريف فورية</p>
+                            <p class="text-[10px] text-neutral-400 mt-0.5">تحويل ومصاريف فورية</p>
                         </div>
                     </div>
-                    <span class="text-[10px] font-bold text-sky-400 bg-sky-950/70 border border-sky-800/70 px-2.5 py-1 rounded-xl">
+                    <span class="text-[10px] font-bold text-brand bg-brand/10 border border-brand/40 px-2.5 py-1 rounded-xl">
                         v1.0
                     </span>
                 </div>
@@ -313,17 +312,17 @@
                     <div class="space-y-1">
                         <label
                             for="currencyPrice"
-                            class="block text-xs font-bold text-sky-400 flex items-center justify-between">
+                            class="block text-xs font-bold text-brand flex items-center justify-between">
                             <span class="flex items-center gap-1.5">
                                 <i class="fa-solid fa-coins text-sm"></i>
                                 الخانة الأولى: سعر القطعة
                             </span>
-                            <span class="text-[10px] text-slate-400 bg-slate-800 px-2 py-0.5 rounded-full">
+                            <span class="text-[10px] text-neutral-400 bg-neutral-800 px-2 py-0.5 rounded-full">
                                 (الأصل)
                             </span>
                         </label>
 
-                        <div class="glass-input rounded-2xl flex items-center px-4 py-2 border border-sky-500/40">
+                        <div class="glass-input rounded-2xl flex items-center px-4 py-2 border border-brand/40">
                             <input
                                 type="text"
                                 id="currencyPrice"
@@ -333,9 +332,9 @@
                                 autocorrect="off"
                                 autocapitalize="off"
                                 spellcheck="false"
-                                class="w-full bg-transparent text-2xl sm:text-3xl font-black text-white focus:outline-none tracking-wide text-right dir-ltr placeholder:text-slate-600"
+                                class="w-full bg-transparent text-2xl sm:text-3xl font-black text-white focus:outline-none tracking-wide text-right dir-ltr placeholder:text-neutral-600"
                                 oninput="handleFormattedInput(this)">
-                            <span class="text-xs font-black text-sky-400 mr-2 bg-sky-950/80 border border-sky-800 px-2.5 py-1 rounded-xl">
+                            <span class="text-xs font-black text-brand mr-2 bg-brand/10 border border-brand/40 px-2.5 py-1 rounded-xl">
                                 عملة
                             </span>
                         </div>
@@ -345,12 +344,12 @@
                     <div class="space-y-1">
                         <label
                             for="addedExpensesPercent"
-                            class="block text-[11px] font-semibold text-slate-300 flex items-center justify-between">
+                            class="block text-[11px] font-semibold text-neutral-300 flex items-center justify-between">
                             <span>
-                                <i class="fa-solid fa-percent text-emerald-400 ml-1.5"></i>
+                                <i class="fa-solid fa-percent text-coral ml-1.5"></i>
                                 الخانة الثانية: المصاريف المضافة
                             </span>
-                            <span class="text-[10px] text-slate-400">
+                            <span class="text-[10px] text-neutral-400">
                                 (%)
                             </span>
                         </label>
@@ -365,9 +364,9 @@
                                 autocorrect="off"
                                 autocapitalize="off"
                                 spellcheck="false"
-                                class="w-full bg-transparent text-base font-bold text-white focus:outline-none tracking-wide text-right dir-ltr placeholder:text-slate-600"
+                                class="w-full bg-transparent text-base font-bold text-white focus:outline-none tracking-wide text-right dir-ltr placeholder:text-neutral-600"
                                 oninput="handleFormattedInput(this)">
-                            <span class="text-[10px] font-bold text-slate-400 mr-2 bg-slate-800 px-2 py-0.5 rounded-lg">
+                            <span class="text-[10px] font-bold text-neutral-400 mr-2 bg-neutral-800 px-2 py-0.5 rounded-lg">
                                 %
                             </span>
                         </div>
@@ -377,12 +376,12 @@
                     <div class="space-y-1">
                         <label
                             for="profitMarginPercent"
-                            class="block text-[11px] font-semibold text-slate-300 flex items-center justify-between">
+                            class="block text-[11px] font-semibold text-neutral-300 flex items-center justify-between">
                             <span>
-                                <i class="fa-solid fa-chart-line text-teal-400 ml-1.5"></i>
+                                <i class="fa-solid fa-chart-line text-brand ml-1.5"></i>
                                 الخانة الثالثة: نسبة الربح
                             </span>
-                            <span class="text-[10px] text-slate-400">
+                            <span class="text-[10px] text-neutral-400">
                                 (%)
                             </span>
                         </label>
@@ -397,9 +396,9 @@
                                 autocorrect="off"
                                 autocapitalize="off"
                                 spellcheck="false"
-                                class="w-full bg-transparent text-base font-bold text-white focus:outline-none tracking-wide text-right dir-ltr placeholder:text-slate-600"
+                                class="w-full bg-transparent text-base font-bold text-white focus:outline-none tracking-wide text-right dir-ltr placeholder:text-neutral-600"
                                 oninput="handleFormattedInput(this)">
-                            <span class="text-[10px] font-bold text-teal-400 mr-2 bg-slate-800 px-2 py-0.5 rounded-lg">
+                            <span class="text-[10px] font-bold text-brand mr-2 bg-neutral-800 px-2 py-0.5 rounded-lg">
                                 %
                             </span>
                         </div>
@@ -409,12 +408,12 @@
                     <div class="space-y-1">
                         <label
                             for="exchangeToUsd"
-                            class="block text-[11px] font-semibold text-slate-300 flex items-center justify-between">
+                            class="block text-[11px] font-semibold text-neutral-300 flex items-center justify-between">
                             <span>
-                                <i class="fa-solid fa-dollar-sign text-amber-400 ml-1.5"></i>
+                                <i class="fa-solid fa-dollar-sign text-coral ml-1.5"></i>
                                 الخانة الرابعة: تصريف العملة للدولار
                             </span>
-                            <span class="text-[10px] text-slate-400">
+                            <span class="text-[10px] text-neutral-400">
                                 (تقسيم)
                             </span>
                         </label>
@@ -429,9 +428,9 @@
                                 autocorrect="off"
                                 autocapitalize="off"
                                 spellcheck="false"
-                                class="w-full bg-transparent text-base font-bold text-white focus:outline-none tracking-wide text-right dir-ltr placeholder:text-slate-600"
+                                class="w-full bg-transparent text-base font-bold text-white focus:outline-none tracking-wide text-right dir-ltr placeholder:text-neutral-600"
                                 oninput="handleFormattedInput(this)">
-                            <span class="text-[10px] font-bold text-slate-400 mr-2 bg-slate-800 px-2 py-0.5 rounded-lg">
+                            <span class="text-[10px] font-bold text-neutral-400 mr-2 bg-neutral-800 px-2 py-0.5 rounded-lg">
                                 USD
                             </span>
                         </div>
@@ -441,12 +440,12 @@
                     <div class="space-y-1">
                         <label
                             for="exchangeUsdToIqd"
-                            class="block text-[11px] font-semibold text-slate-300 flex items-center justify-between">
+                            class="block text-[11px] font-semibold text-neutral-300 flex items-center justify-between">
                             <span>
-                                <i class="fa-solid fa-money-bill-wave text-purple-400 ml-1.5"></i>
+                                <i class="fa-solid fa-money-bill-wave text-brand ml-1.5"></i>
                                 الخانة الخامسة: تصريف الدولار للدينار
                             </span>
-                            <span class="text-[10px] text-slate-400">
+                            <span class="text-[10px] text-neutral-400">
                                 (ضرب)
                             </span>
                         </label>
@@ -461,9 +460,9 @@
                                 autocorrect="off"
                                 autocapitalize="off"
                                 spellcheck="false"
-                                class="w-full bg-transparent text-base font-bold text-white focus:outline-none tracking-wide text-right dir-ltr placeholder:text-slate-600"
+                                class="w-full bg-transparent text-base font-bold text-white focus:outline-none tracking-wide text-right dir-ltr placeholder:text-neutral-600"
                                 oninput="handleFormattedInput(this)">
-                            <span class="text-[10px] font-bold text-slate-400 mr-2 bg-slate-800 px-2 py-0.5 rounded-lg">
+                            <span class="text-[10px] font-bold text-neutral-400 mr-2 bg-neutral-800 px-2 py-0.5 rounded-lg">
                                 IQD
                             </span>
                         </div>
@@ -478,15 +477,15 @@
                 <div class="space-y-3 mt-4">
 
                     <!-- Final Result -->
-                    <div class="bg-gradient-to-br from-emerald-500/20 via-slate-800/90 to-sky-500/20 rounded-2xl p-3 border border-emerald-500/30 text-center relative overflow-hidden shadow-lg">
-                        <div class="text-[10px] font-extrabold uppercase text-emerald-400 tracking-wider">
+                    <div class="bg-gradient-to-br from-brand/20 via-neutral-900/90 to-coral/20 rounded-2xl p-3 border border-brand/40 text-center relative overflow-hidden shadow-lg">
+                        <div class="text-[10px] font-extrabold uppercase text-brand tracking-wider">
                             الناتج النهائي (بالدينار)
                         </div>
 
                         <div id="finalResult"
                              class="text-3xl sm:text-4xl font-black text-white tracking-tight my-0.5">
                             0.00
-                            <span class="text-base font-bold text-slate-400">
+                            <span class="text-base font-bold text-neutral-400">
                                 د.ع
                             </span>
                         </div>
@@ -495,7 +494,7 @@
                     <!-- Reset -->
                     <button
                         onclick="resetCurrencyOnly()"
-                        class="w-full bg-gradient-to-r from-red-500/25 via-rose-600/25 to-red-500/25 hover:from-red-500/40 hover:to-rose-600/40 active:scale-[0.98] text-rose-200 font-extrabold py-3 px-4 rounded-xl border border-rose-500/40 transition duration-200 flex items-center justify-center gap-2 text-sm shadow-lg">
+                        class="w-full bg-gradient-to-r from-coral/25 via-coral/15 to-coral/25 hover:from-coral/40 hover:to-coral/40 active:scale-[0.98] text-orange-100 font-extrabold py-3 px-4 rounded-xl border border-coral/50 transition duration-200 flex items-center justify-center gap-2 text-sm shadow-lg">
                         <i class="fa-solid fa-rotate-right text-base"></i>
                         <span>
                             تصفير سعر القطعة فقط
@@ -503,30 +502,30 @@
                     </button>
 
                     <!-- Breakdown -->
-                    <div class="bg-slate-900/60 rounded-xl p-2 border border-slate-800 grid grid-cols-3 gap-1.5 text-center text-[10px]">
-                        <div class="bg-slate-800/50 p-1.5 rounded-lg">
-                            <span class="text-slate-400 block text-[9px]">
+                    <div class="bg-neutral-900/60 rounded-xl p-2 border border-neutral-800 grid grid-cols-3 gap-1.5 text-center text-[10px]">
+                        <div class="bg-neutral-800/50 p-1.5 rounded-lg">
+                            <span class="text-neutral-400 block text-[9px]">
                                 مع المصاريف
                             </span>
-                            <span id="step1Val" class="font-bold text-slate-200">
+                            <span id="step1Val" class="font-bold text-neutral-200">
                                 0.00
                             </span>
                         </div>
 
-                        <div class="bg-slate-800/50 p-1.5 rounded-lg">
-                            <span class="text-slate-400 block text-[9px]">
+                        <div class="bg-neutral-800/50 p-1.5 rounded-lg">
+                            <span class="text-neutral-400 block text-[9px]">
                                 بالدولار ($)
                             </span>
-                            <span id="step2Val" class="font-bold text-slate-200">
+                            <span id="step2Val" class="font-bold text-neutral-200">
                                 $0.00
                             </span>
                         </div>
 
-                        <div class="bg-slate-800/50 p-1.5 rounded-lg">
-                            <span class="text-slate-400 block text-[9px]">
+                        <div class="bg-neutral-800/50 p-1.5 rounded-lg">
+                            <span class="text-neutral-400 block text-[9px]">
                                 بالدينار النهائي
                             </span>
-                            <span id="step3Val" class="font-bold text-emerald-400">
+                            <span id="step3Val" class="font-bold text-brand">
                                 0.00 د.ع
                             </span>
                         </div>
@@ -602,7 +601,7 @@
 
             if (price <= 0) {
                 finalResultEl.innerHTML =
-                    `0.00 <span class="text-base font-bold text-slate-400">د.ع</span>`;
+                    `0.00 <span class="text-base font-bold text-neutral-400">د.ع</span>`;
 
                 step1El.textContent = '0.00';
                 step2El.textContent = '$0.00';
@@ -641,7 +640,7 @@
             // Final result
             finalResultEl.innerHTML =
                 `${formattedFinal}
-                 <span class="text-base font-bold text-emerald-400">
+                 <span class="text-base font-bold text-brand">
                     د.ع
                  </span>`;
         }
@@ -660,6 +659,7 @@
             const currencyInput = document.getElementById('currencyPrice');
             currencyInput.value = '';
             calculateResult();
+            saveState();
 
             requestAnimationFrame(() => {
                 currencyInput.focus({
@@ -712,6 +712,45 @@
             });
 
         });
+
+        /* =========================
+           حفظ القيم حتى لا تتصفر بالخلفية
+           sessionStorage تبقى إذا التلفون أعاد تحميل الصفحة بالخلفية
+           وتنمسح فقط عند إغلاق التبويب / المتصفح
+        ========================= */
+
+        const STORAGE_KEY = 'alhindi_values_v1';
+
+        function saveState() {
+            try {
+                const data = {};
+                inputs.forEach(input => { data[input.id] = input.value; });
+                sessionStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+            } catch (e) { }
+        }
+
+        function loadState() {
+            try {
+                const data = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || '{}');
+                inputs.forEach(input => {
+                    if (typeof data[input.id] === 'string') input.value = data[input.id];
+                });
+            } catch (e) { }
+            calculateResult();
+        }
+
+        inputs.forEach(input => input.addEventListener('input', saveState));
+
+        // حفظ إضافي لحظة ما ينتقل البرنامج للخلفية
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'hidden') saveState();
+        });
+        window.addEventListener('pagehide', saveState);
+
+        // استرجاع القيم إذا الصفحة رجعت من الذاكرة
+        window.addEventListener('pageshow', loadState);
+
+        loadState();
 
     </script>
 
